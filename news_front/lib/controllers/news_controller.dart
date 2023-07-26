@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:news/data/repository.dart';
 import 'package:news/models/news.dart';
@@ -19,9 +21,9 @@ class NewsController extends ControllerMVC {
     }
   }
 
-  void addNews(News news, void Function(NewsAdd) callback) async {
+  void addNews(News news, File? file, void Function(NewsAdd) callback) async {
     try {
-      final result = await repo.addNews(news);
+      final result = await repo.addNews(news, file);
       callback(result);
     } catch (error) {
       callback(NewsAddFailure());

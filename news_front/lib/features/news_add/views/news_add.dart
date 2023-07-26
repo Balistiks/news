@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:news/controllers/file_controller.dart';
 import 'package:news/controllers/news_controller.dart';
+import 'package:news/models/file.dart';
 import 'package:news/models/news.dart';
 
 class NewsAdd extends StatefulWidget {
@@ -15,10 +17,16 @@ class NewsAdd extends StatefulWidget {
 
 class _NewsAddState extends StateMVC {
   late NewsController? _controller;
-  late XFile? _file;
+  late FileController? _fileController;
 
   _NewsAddState() : super(NewsController()) {
     _controller = controller as NewsController;
+  }
+
+  @override
+  void initState() {
+    _fileController = FileController();
+    super.initState();
   }
 
   final TextEditingController titleController = TextEditingController();
@@ -26,40 +34,7 @@ class _NewsAddState extends StateMVC {
 
   final _formKey = GlobalKey<FormState>();
 
-  void _getImageFromPhotoLibrary(context) {
-    _getFile(ImageSource.gallery, context);
-  }
-
-  Future<void> _getFile(ImageSource source, BuildContext context) async {
-    try {
-      final XFile? file = await ImagePicker().pickMedia();
-      setState(() {
-        _file = file;
-        _showBottomSheet(context);
-      });
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    
-  }
-
-  void _showBottomSheet(context) {
-    if (_file != null) {
-      showModalBottomSheet(
-          context: context,
-          builder: (BuildContext bc) {
-            return Center(
-                child: LimitedBox(
-              maxHeight: 300,
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Image.file(File(_file!.path));
-                },
-              ),
-            ));
-          });
-    }
-  }
+  File? _selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +47,7 @@ class _NewsAddState extends StateMVC {
               final news = News(
                 -1, titleController.text, textController.text
               );
-              _controller!.addNews(news, (status) {
+              _controller!.addNews(news, _selectedImage, (status) {
                 if(status is NewsAddSuccess) {
                   Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                 } else {
@@ -98,6 +73,33 @@ class _NewsAddState extends StateMVC {
       key: _formKey,
       child: Column(
         children: [
+          Row(
+            children: [
+              Text('Фото:', style: Theme.of(context).textTheme.bodyMedium),
+              const Padding(padding: EdgeInsets.only(right: 20)),
+              ElevatedButton(
+                onPressed: () {
+                  _pickImageFromCamera();
+                },
+                child: const Icon(Icons.camera),
+              ),
+              const Padding(padding: EdgeInsets.only(right: 20)),
+              ElevatedButton(
+                onPressed: () {
+                  _pickImageFromGallery();
+                },
+                child: const Text('Выбрать из галереи'),
+              ),
+            ],
+          ),
+          _selectedImage != null ? Container(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Column(
+              children: [
+                Image.file(_selectedImage!, height: 250, width: 450)
+              ],
+            ),
+          ) : Container(),
           TextFormField(
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: const InputDecoration(
@@ -155,5 +157,23 @@ class _NewsAddState extends StateMVC {
         ],
       ),
     );
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+    
+    if (returnedImage == null) return;
+    setState(() {
+      _selectedImage = File(returnedImage.path);
+    });
+  }
+
+  Future _pickImageFromGallery() async {
+    final returnedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (returnedImage == null) return;
+    setState(() {
+      _selectedImage = File(returnedImage.path);
+    });
   }
 }
