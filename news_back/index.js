@@ -18,6 +18,7 @@ newsRouter.post('/', newsController.postNews);
 newsRouter.use('/', newsController.getNews);
 app.use('/news', newsRouter);
 
+fileRouter.delete('/delete', fileController.deleteFile);
 fileRouter.get('/get', fileController.getFile);
 fileRouter.post('/upload', fileController.uploadFile);
 app.use('/file', fileRouter)

@@ -19,3 +19,7 @@ class FileModel {
 abstract class FileUpload {}
 class FileUploadSuccess extends FileUpload {}
 class FileUploadFailure extends FileUpload {}
+
+abstract class FileDelete {}
+class FileDeleteSuccess extends FileDelete {}
+class FileDeleteFailure extends FileDelete {}

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:news/controllers/file_controller.dart';
 import 'package:news/data/repository.dart';
 import 'package:news/models/news.dart';
 
@@ -39,7 +40,7 @@ class NewsController extends ControllerMVC {
     }
   }
 
-  void deleteNews(int id, void Function(NewsDelete) callback) async {
+  void deleteNews(int id, String? fileId, void Function(NewsDelete) callback) async {
     try {
       final result = await repo.deleteNews(id);
       callback(result);

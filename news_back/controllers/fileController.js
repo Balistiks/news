@@ -59,3 +59,16 @@ exports.getFile = async function(req, res) {
         return res.status(500).send('<h1>500 Internal Server Error</h1><p>Details: server error</p>');
     }
 }
+
+exports.deleteFile = async function(req, res) {
+    const path = 'news_files/' + req.query.id
+    try {
+        console.log('fff')
+        fs.unlinkSync(path);
+        console.log('gggg')
+        res.status(200);
+    } catch (error) {
+        console.log('aaaa')
+        res.status(500)
+    }
+}

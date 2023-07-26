@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:news/controllers/file_controller.dart';
 import 'package:news/controllers/news_controller.dart';
 import 'package:news/models/file.dart';
 import 'package:news/models/news.dart';
@@ -13,9 +14,16 @@ class NewsOne extends StatefulWidget {
 
 class _NewsOneState extends StateMVC<NewsOne> {
   late NewsController _controller;
+  late FileController _controllerFile;
 
   _NewsOneState() : super(NewsController()) {
     _controller = controller as NewsController;
+  }
+
+  @override
+  void initState() {
+    _controllerFile = FileController();
+    super.initState();
   }
 
   @override
@@ -97,9 +105,12 @@ class _NewsOneState extends StateMVC<NewsOne> {
                         const Padding(padding: EdgeInsets.only(left: 10)),
                         ElevatedButton(
                           onPressed: () {
-                            _controller.deleteNews(news.id, (status) {
+                            _controller.deleteNews(news.id, file?.sha512hash, (status) {
                               if (status is NewsDeleteSuccess) {
-                                Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                                if (file != null) {
+                                  _controllerFile.deleteFile(file.sha512hash, (p0) {});
+                                  Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                                }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text("Произошла ошибка при удалении поста"))

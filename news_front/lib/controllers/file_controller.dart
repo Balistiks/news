@@ -19,4 +19,13 @@ class FileController extends ControllerMVC {
       callback(FileUploadFailure());
     }
   }
+
+  void deleteFile(String id, void Function(FileDelete) callback) async {
+    try {
+      final result = await repo.deleteFile(id);
+      callback(result);
+    } catch (error) {
+      callback(FileDeleteFailure());
+    }
+  }
 }

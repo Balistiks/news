@@ -57,3 +57,5 @@ exports.updateNews = async function(req, res) {
     news.save();
     res.json(news);
 }
+
+

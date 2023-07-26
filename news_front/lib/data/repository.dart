@@ -90,4 +90,24 @@ class Repository {
       return FileUploadFailure();
     }
   }
+
+  Future<FileDelete> deleteFile(String id) async {
+    final url = Uri.parse('$SERVER/file/delete?id=$id');
+    final response = await http.delete(url);
+    if (response.statusCode == 200) {
+      return FileDeleteSuccess();
+    } else {
+      return FileDeleteFailure();
+    }
+    // final response = await http.post(url, body: news.toJson());
+    // final newsFromJson = News.fromJson(json.decode(response.body));
+    // if (file != null) {
+    //   FileController().uploadFile(file, newsFromJson.id, (p0) {});
+    // }
+    // if (response.statusCode == 200) {
+    //   return NewsAddSuccess();
+    // } else {
+    //   return NewsAddFailure();
+    // }
+  }
 }
