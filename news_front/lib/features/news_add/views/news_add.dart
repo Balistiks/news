@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:news/controllers/file_controller.dart';
 import 'package:news/controllers/news_controller.dart';
-import 'package:news/models/file.dart';
 import 'package:news/models/news.dart';
 
 class NewsAdd extends StatefulWidget {
@@ -17,16 +15,9 @@ class NewsAdd extends StatefulWidget {
 
 class _NewsAddState extends StateMVC {
   late NewsController? _controller;
-  late FileController? _fileController;
 
   _NewsAddState() : super(NewsController()) {
     _controller = controller as NewsController;
-  }
-
-  @override
-  void initState() {
-    _fileController = FileController();
-    super.initState();
   }
 
   final TextEditingController titleController = TextEditingController();
