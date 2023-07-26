@@ -16,11 +16,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       newsId: {
+        onDelete: 'CASCADE',
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'News',
-          key: 'id'
+          key: 'id',
         }
       },
       createdAt: {

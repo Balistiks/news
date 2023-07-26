@@ -44,8 +44,6 @@ exports.deleteNews = async function(req, res) {
 
 exports.updateNews = async function(req, res) {
     const data = req.body;
-    console.log(data);
-    console.log(req.params);
 
     const news = await News.findOne({
         where: {

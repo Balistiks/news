@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:news/controllers/news_controller.dart';
+import 'package:news/models/file.dart';
 import 'package:news/models/news.dart';
 
 class NewsOne extends StatefulWidget {
@@ -29,7 +30,7 @@ class _NewsOneState extends StateMVC<NewsOne> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Новость')),
+      appBar: AppBar(title: const Text('Новость')),
       body: _buildContent(),
     );
   }
@@ -50,6 +51,7 @@ class _NewsOneState extends StateMVC<NewsOne> {
       );
     } else {
       final news = (state as NewsResSuccess).news;
+      final file = news.file as FileModel?;
       return Center(
         child: Container(
           width: 400,
@@ -71,10 +73,15 @@ class _NewsOneState extends StateMVC<NewsOne> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      news.title,
-                      textAlign: TextAlign.left,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                    Column(
+                      children: [
+                        Text(
+                          news.title,
+                          textAlign: TextAlign.left,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        file != null ? Image.network('http://localhost:3002/file/get?id=${file.sha512hash}', width: 150, height: 100,) : Container(),
+                      ],
                     ),
                     Row(
                       children: [

@@ -59,7 +59,7 @@ class _NewsListScreenState extends StateMVC<NewsListScreen> {
         child: ListView.builder(
           itemCount: news.length,
           itemBuilder: (context, index) {
-            return NewsListItem(news: news[index],);
+            return NewsListItem(news: news[index]);
           },
         ),
       );

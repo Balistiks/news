@@ -44,7 +44,8 @@ class _NewsUpdateState extends StateMVC<NewsUpdate> {
               final news = News(
                 _news.id,
                 titleController.text,
-                textController.text
+                textController.text,
+                null
               );
               _controller.updateNews(news.id, news, (status) {
                 if (status is NewsUpdateSuccess) {

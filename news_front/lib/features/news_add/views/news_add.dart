@@ -36,7 +36,7 @@ class _NewsAddState extends StateMVC {
           IconButton(onPressed: () {
             if (_formKey.currentState!.validate()) {
               final news = News(
-                -1, titleController.text, textController.text
+                -1, titleController.text, textController.text, null
               );
               _controller!.addNews(news, _selectedImage, (status) {
                 if(status is NewsAddSuccess) {
