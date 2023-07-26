@@ -1,30 +1,19 @@
 'use strict';
-const Models = require('../models');
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Files', {
+    await queryInterface.createTable('News', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      path: {
+      title: {
         type: Sequelize.STRING
       },
-      sha512hash: {
+      text: {
         type: Sequelize.STRING
-      },
-      newsId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'newsModels',
-          key: 'id'
-        },
-        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,
@@ -33,10 +22,10 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
+      }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Files');
+    await queryInterface.dropTable('News');
   }
 };

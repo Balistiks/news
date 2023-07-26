@@ -37,13 +37,6 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-db.newsModel = require('./newsmodel')(sequelize, Sequelize.DataTypes)
-db.File = require('./file')(sequelize, Sequelize.DataTypes)
-
 db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-db.newsModel.hasOne(db.File);
-db.File.belongsTo(db.newsModel);
 
 module.exports = db;

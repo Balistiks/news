@@ -1,14 +1,16 @@
-const Models = require('../models');
+const { sequelize, News, File } = require('../models');
 var bodyParser = require('body-parser');
 
 exports.getNews = async function(req, res) {
-    Models.newsModel.findAll().then(data => {
+    News.findAll({
+        include: File
+    }).then(data => {
         res.json(data);
     })
 }
 
 exports.postNews = async function(req, res) {
-    const news = await Models.newsModel.create({
+    const news = await News.create({
         'title': req.body.title,
         'text': req.body.text
     })
@@ -17,17 +19,18 @@ exports.postNews = async function(req, res) {
 }
 
 exports.getOneNews = async function(req, res) {
-    const news = await Models.newsModel.findOne({
+    const news = await News.findOne({
         where: {
             id: req.params.id
-        }
+        },
+        include: File
     });
 
     res.json(news);
 }
 
 exports.deleteNews = async function(req, res) {
-    const data = await Models.newsModel.destroy({
+    const data = await News.destroy({
         where: {
             id: req.params.id
         }
@@ -44,7 +47,7 @@ exports.updateNews = async function(req, res) {
     console.log(data);
     console.log(req.params);
 
-    const news = await Models.newsModel.findOne({
+    const news = await News.findOne({
         where: {
             id: req.params.id
         }
