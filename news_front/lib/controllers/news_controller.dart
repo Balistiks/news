@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:news/controllers/file_controller.dart';
 import 'package:news/data/repository.dart';
 import 'package:news/models/news.dart';
 
