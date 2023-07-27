@@ -7,7 +7,7 @@ import 'package:news/controllers/file_controller.dart';
 import 'package:news/models/file.dart';
 import 'package:news/models/news.dart';
 
-const String SERVER = "http://localhost:3002";
+const String SERVER = "http://192.168.1.3:3002";
 
 class Repository {
   Future<NewsList> fetchNews() async {
